@@ -1,0 +1,61 @@
+#Imports
+import tkinter
+from tkinter import *
+import requests
+import bs4
+from bs4 import BeautifulSoup
+ 
+#Frame
+root = Tk()
+root.title("Web Extractor")
+root.geometry("260x80")
+root.resizable(False, False)
+
+#Defs
+def Znput():
+    urlt=urltxt.get(1.0, "end-1c")
+    cmdt=Commandtxt.get(1.0, "end-1c")
+    req=requests.get("https://" + urlt)
+    if cmdt=="text":
+        xa = req.text
+        soup = BeautifulSoup(xa, 'html.parser')
+        print(soup.prettify())
+    elif cmdt=="encoding":
+        print(req.encoding)
+    elif cmdt=="content":
+        print(req.content)
+    elif cmdt=="file8":
+        xb = req.text
+        soup = BeautifulSoup(xb, 'html.parser')
+        xc = soup.prettify("UTF-8")
+        with open("WEoutput.txt", "w") as f:
+            f.write(str(xc))
+
+    elif cmdt=="file":
+        xb = req.text
+        soup = BeautifulSoup(xb, 'html.parser')
+        xc = soup.prettify()
+        with open("WEoutput.txt", "w") as f:
+            f.write(str(xc))
+
+ 
+def cmdhelp():
+    cmdhelpf = Tk()
+    cmdhelpf.title("Commands")
+    cmdhelpf.geometry("790x30")
+    cmdhelpf.resizable(False, False)
+    lblconf=Label(cmdhelpf, text="encoding - Displays encoding type | text - Displays HTML | content - Displays content | file - Creates WEoutput.txt | file8 same as file but with UTF-8").grid(row=1, column=2)
+ 
+#Layout
+btn1 = Button(text="Extract", command=Znput).grid(row=2, column=2)
+urltxt = Text(root, height=1, width=22)
+urltxt.grid(row=2, column=1)
+lblc = Label(text="Command").grid(row=3, column=2)
+Commandtxt = Text(root, height=1, width=22)
+Commandtxt.grid(row=3, column=1)
+btn2 = Button(text="Commands", command=cmdhelp).grid(row=4, column=1)
+
+
+ 
+
+root.mainloop()
