@@ -15,29 +15,32 @@ root.resizable(False, False)
 def Znput():
     urlt=urltxt.get(1.0, "end-1c")
     cmdt=Commandtxt.get(1.0, "end-1c")
-    req=requests.get("https://" + urlt)
-    if cmdt=="text":
-        xa = req.text
-        soup = BeautifulSoup(xa, 'html.parser')
-        print(soup.prettify())
-    elif cmdt=="encoding":
-        print(req.encoding)
-    elif cmdt=="content":
-        print(req.content)
-    elif cmdt=="file8":
-        xb = req.text
-        soup = BeautifulSoup(xb, 'html.parser')
-        xc = soup.prettify("UTF-8")
-        with open("WEoutput.txt", "w") as f:
-            f.write(str(xc))
+    try:
+        req=requests.get(urlt)
+        if cmdt=="text":
+            xa = req.text
+            soup = BeautifulSoup(xa, 'html.parser')
+            print(soup.prettify())
+        elif cmdt=="encoding":
+            print(req.encoding)
+        elif cmdt=="content":
+            print(req.content)
+        elif cmdt=="file8":
+            xb = req.text
+            soup = BeautifulSoup(xb, 'html.parser')
+            xc = soup.prettify("UTF-8")
+            with open("WEoutput.txt", "w") as f:
+                f.write(str(xc))
+    
+        elif cmdt=="file":
+            xb = req.text
+            soup = BeautifulSoup(xb, 'html.parser')
+            xc = soup.prettify()
+            with open("WEoutput.txt", "w") as f:
+                f.write(str(xc))
 
-    elif cmdt=="file":
-        xb = req.text
-        soup = BeautifulSoup(xb, 'html.parser')
-        xc = soup.prettify()
-        with open("WEoutput.txt", "w") as f:
-            f.write(str(xc))
-
+    except:
+        print("Input valid URL")
  
 def cmdhelp():
     cmdhelpf = Tk()
